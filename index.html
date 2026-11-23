@@ -310,7 +310,7 @@ function updateNetworkStatus(){setStatus(navigator.onLine?"Połączono":"Brak in
 window.addEventListener("online",updateNetworkStatus);window.addEventListener("offline",updateNetworkStatus);updateNetworkStatus();
 let installPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;const b=document.querySelector("#installApp");if(b)b.hidden=false});
-document.querySelector("#installApp").onclick=async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.querySelector("#installApp").hidden=true};
+const installButton=document.querySelector("#installApp");if(installButton)installButton.onclick=async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true};
 const photoInput=document.querySelector("#placePhotos");
 photoInput.addEventListener("change",()=>{const preview=document.querySelector("#photoPreview");preview.innerHTML="";[...photoInput.files].slice(0,4).forEach(file=>{if(!file.type.startsWith("image/"))return;const img=document.createElement("img");img.src=URL.createObjectURL(file);img.alt="Podgląd zdjęcia";preview.append(img)})});
 async function uploadPlacePhotos(placeId){const urls=[];for(const [i,file] of [...photoInput.files].slice(0,4).entries()){if(!file.type.startsWith("image/"))continue;const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";const path=user.id+"/"+placeId+"/"+Date.now()+"-"+i+"."+ext;const up=await db.storage.from("place-photos").upload(path,file,{contentType:file.type,upsert:false});if(up.error)throw up.error;urls.push(db.storage.from("place-photos").getPublicUrl(path).data.publicUrl)}return urls}
@@ -326,7 +326,7 @@ document.querySelector("#placeForm").onsubmit=async e=>{e.preventDefault();if(!u
 
 const home=document.querySelector("#homeDashboard");
 
-document.querySelector("#homeGps").onclick=()=>getGps(false);
+
 document.querySelector("#homeAdd").onclick=()=>{document.body.classList.remove("dashboard-open");document.querySelector("#homeDashboard").style.display="none";openForm()};
 document.querySelector("#homeSearch").oninput=e=>{query=e.target.value.toLowerCase().trim();render();if(query){openMapView();sidePanel.classList.add("panel-open");setNav("navPlaces")}};
 function openMapView(){home.style.display="none";document.body.classList.remove("dashboard-open");setTimeout(()=>map.invalidateSize(),120)}
