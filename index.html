@@ -61,7 +61,7 @@ main>aside.panel-open{display:block!important}
 .homeTile.tileDrone{border-color:#167fc0;background:linear-gradient(145deg,#075b91,#0c2941)}
 .homeTile.tileDrone .tileIcon{color:#bce7ff}
 .homeFoot{text-align:center;color:#68849c;font-size:9px;letter-spacing:2px;margin:25px 0 4px}.homeFoot span{color:#3baaff}
-body.dashboard-open header,body.dashboard-open main,body.dashboard-open #search,body.dashboard-open .bottom-nav,body.dashboard-open #routePanel{visibility:hidden}
+body.dashboard-open main,body.dashboard-open #search,body.dashboard-open .bottom-nav,body.dashboard-open #routePanel{visibility:hidden}
 @media(min-width:700px){#homeDashboard{padding:38px max(28px,calc((100vw - 720px)/2))}.homeTitle{margin-top:55px}.homeGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.homeTile{min-height:160px;padding:20px}}
 
 #homeDashboard{position:fixed;inset:0;z-index:2000;pointer-events:none;color:#f4f8fc}
@@ -82,7 +82,7 @@ body.dashboard-open header,body.dashboard-open main,body.dashboard-open #search,
 .homeTile{flex:0 0 104px;height:112px;border:0;border-radius:20px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 12px #0004}
 .homeTile span{font-size:31px;font-weight:700}.homeTile b{font-size:12px}
 .tileHome{background:#a40008}.tileExplore{background:#49316b}.tileNavigate{background:#34424a}.tileFavorites{background:#28664a}.tileAccount{background:#75421d}
-body.dashboard-open header,body.dashboard-open .bottom-nav{visibility:hidden}
+body.dashboard-open .bottom-nav{visibility:hidden}
 body.dashboard-open main{visibility:visible}
 body.dashboard-open main>aside{display:none!important}
 body.dashboard-open #routePanel{display:none!important}
@@ -151,8 +151,8 @@ body.dashboard-open header,body.dashboard-open .bottom-nav,body.dashboard-open #
 #homeGps{background:rgba(26,39,48,.82)!important;border-color:rgba(255,255,255,.15)!important}
 
 /* Ekran główny ma być jedynym widokiem startowym */
-#homeDashboard{display:block!important;visibility:visible!important}
-body.dashboard-open header,body.dashboard-open .bottom-nav{display:none!important}
+#homeDashboard{visibility:visible!important}
+body.dashboard-open .bottom-nav{display:none!important}
 body.dashboard-open .maplabel,body.dashboard-open #droneTowerButton,body.dashboard-open #addMap{display:none!important}
 body.dashboard-open main{visibility:visible!important}
 body.dashboard-open main>section{visibility:visible!important}
@@ -276,9 +276,26 @@ body.dashboard-open main,body.dashboard-open main>section,body.dashboard-open #m
 #sidePanel.searching{padding-top:14px!important}
 #sidePanel.searching>h3:last-of-type{margin-top:0!important;padding-top:0!important}
 #sidePanel.searching #places{margin-top:8px!important}
+
+/* Końcowe uporządkowanie widoków: ekran mapy i panel wyszukiwania */
+#homeDashboard{display:block;visibility:visible;transition:opacity .18s ease}
+#homeDashboard[hidden]{display:none!important}
+body.dashboard-open #homeDashboard{display:block}
+body:not(.dashboard-open) #homeDashboard{display:none!important}
+#sidePanel.searching>.eyebrow,
+#sidePanel.searching>h1,
+#sidePanel.searching>.muted,
+#sidePanel.searching>h3:first-of-type,
+#sidePanel.searching>#cats,
+#sidePanel.searching>.warning{display:none!important}
+#sidePanel.searching{padding-top:12px!important}
+#sidePanel.searching>h3:last-of-type{margin:0 0 8px!important}
+#sidePanel.searching #places{max-height:52dvh!important;margin:0!important}
+#sidePanel.searching .place{background:rgba(255,255,255,.035)!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+#sidePanel:not(.searching) .place{display:flex}
 </style></head><body>
-<header><a class="logo" href="#">◈ Map<span>Dron</span></a><div><button id="locate">◎ Moja pozycja</button></div></header>
-<main><aside id="sidePanel"><p class="eyebrow">ODKRYWAJ POLSKĘ Z INNEJ PERSPEKTYWY</p><h1>Znajdź swój<br><em>następny kadr.</em></h1><p class="muted">Mapa ciekawych lokalizacji do fotografii i planowania wypraw dronem.</p><h3>Kategorie</h3><div id="cats"></div><h3>Miejsca na mapie <small id="count"></small></h3><div id="places"></div><div class="warning"><b>Planujesz lot?</b><p>Przed każdym lotem sprawdź aktualne strefy, wymagania i zgody w oficjalnym systemie PAŻP. MapDron nie zastępuje DroneTower.</p></div></aside><section><div id="map"></div><div class="maplabel">● Lokalizacje w Polsce</div><a id="droneTowerButton" href="intent://launch/#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=pl.pansa.dronetower;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dpl.pansa.dronetower;end">✈ DroneTower</a></section></main><div id="routePanel" aria-live="polite"><button id="closeRoute" aria-label="Zamknij">×</button><div class="routeEyebrow">WYBRANA LOKALIZACJA</div><h3 id="routeName"></h3><p id="routeMeta">Pobieranie trasy…</p><div class="routeStats"><div><small>ODLEGŁOŚĆ</small><b id="routeDistance">…</b></div><div><small>CZAS DOJAZDU</small><b id="routeDuration">…</b></div></div><a id="startNavigation" target="_blank" rel="noopener noreferrer">Rozpocznij nawigację ↗</a></div><div id="appError" hidden style="position:fixed;z-index:99999;top:10px;left:10px;right:10px;padding:12px;background:#8b1e1e;color:white;border-radius:10px;font:14px sans-serif"></div><div id="homeDashboard">
+
+<main><aside id="sidePanel"><p class="eyebrow">ODKRYWAJ POLSKĘ Z INNEJ PERSPEKTYWY</p><h1>Znajdź swój<br><em>następny kadr.</em></h1><p class="muted">Mapa ciekawych lokalizacji do fotografii i planowania wypraw dronem.</p><h3>Kategorie</h3><div id="cats"></div><h3>Miejsca na mapie <small id="count"></small></h3><div id="places"></div><div class="warning"><b>Planujesz lot?</b><p>Przed każdym lotem sprawdź aktualne strefy, wymagania i zgody w oficjalnym systemie PAŻP. MapDron nie zastępuje DroneTower.</p></div></aside><section><div id="map"></div></section></main><div id="routePanel" aria-live="polite"><button id="closeRoute" aria-label="Zamknij">×</button><div class="routeEyebrow">WYBRANA LOKALIZACJA</div><h3 id="routeName"></h3><p id="routeMeta">Pobieranie trasy…</p><div class="routeStats"><div><small>ODLEGŁOŚĆ</small><b id="routeDistance">…</b></div><div><small>CZAS DOJAZDU</small><b id="routeDuration">…</b></div></div><a id="startNavigation" target="_blank" rel="noopener noreferrer">Rozpocznij nawigację ↗</a></div><div id="appError" hidden style="position:fixed;z-index:99999;top:10px;left:10px;right:10px;padding:12px;background:#8b1e1e;color:white;border-radius:10px;font:14px sans-serif"></div><div id="homeDashboard">
  <div class="homeSheet" id="homeSheet"><button class="sheetHandle" id="sheetToggle" type="button" aria-label="Zwiń panel" aria-expanded="true"><span></span></button><div class="sheetSearch"><span>⌕</span><input id="homeSearch" placeholder="Wyszukaj miejsce..." aria-label="Wyszukaj miejsce"></div>
  <div class="homeTiles">
   <button class="homeTile tileHome" id="homeMap"><span>⌂</span><b>Mapa</b></button>
@@ -345,7 +362,7 @@ async function uploadPlacePhotos(placeId){const urls=[];for(const [i,file] of [.
 const authDialog=document.querySelector("#authDialog");const authMsg=document.querySelector("#authMessage");const authEmail=document.querySelector("#authEmail");const authPassword=document.querySelector("#authPassword");function authMode(mode){const recovery=mode==="recovery";document.querySelector("#passwordLogin").hidden=recovery;document.querySelector("#passwordSignup").hidden=recovery;document.querySelector("#forgotPassword").hidden=recovery;document.querySelector("#saveNewPassword").hidden=!recovery;authPassword.autocomplete=recovery?"new-password":"current-password";document.querySelector("#authTitle").textContent=recovery?"Ustaw nowe hasło":"Logowanie";authMsg.textContent=recovery?"Wpisz nowe hasło do swojego konta.":"Zaloguj się, utwórz konto lub odzyskaj hasło."}async function toggleAccount(){if(user){const r=await db.auth.signOut();if(r.error)alert("Nie udało się wylogować: "+r.error.message);return}authMode("login");authDialog.showModal()}document.querySelector("#auth").onclick=toggleAccount;document.querySelector("#passwordLogin").onclick=async()=>{const email=authEmail.value.trim(),password=authPassword.value;if(!email||!password)return alert("Wpisz e-mail i hasło.");const r=await db.auth.signInWithPassword({email,password});if(r.error)return alert("Nie udało się zalogować: "+r.error.message);authDialog.close()};document.querySelector("#passwordSignup").onclick=async()=>{const email=authEmail.value.trim(),password=authPassword.value;if(!email||!password)return alert("Wpisz e-mail i hasło.");if(password.length<8)return alert("Hasło musi mieć co najmniej 8 znaków.");const r=await db.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});if(r.error)return alert("Nie udało się utworzyć konta: "+r.error.message);alert(r.data.session?"Konto utworzone. Jesteś zalogowany.":"Konto utworzone. Sprawdź e-mail i potwierdź rejestrację.");if(r.data.session)authDialog.close()};document.querySelector("#forgotPassword").onclick=async()=>{const email=authEmail.value.trim();if(!email)return alert("Najpierw wpisz adres e-mail.");const r=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)return alert("Nie udało się wysłać instrukcji: "+r.error.message);authMsg.textContent="Wysłaliśmy instrukcję zmiany hasła. Otwórz link z wiadomości.";alert("Jeśli adres jest zarejestrowany, otrzymasz wiadomość z linkiem do ustawienia nowego hasła.")};document.querySelector("#saveNewPassword").onclick=async()=>{const password=authPassword.value;if(password.length<8)return alert("Nowe hasło musi mieć co najmniej 8 znaków.");const r=await db.auth.updateUser({password});if(r.error)return alert("Nie udało się zmienić hasła: "+r.error.message);authDialog.close();alert("Hasło zostało zmienione.")};
 db.auth.onAuthStateChange(async(event,s)=>{user=s?.user||null;document.querySelector("#auth").textContent=user?"Wyloguj":"Zaloguj";if(event==="PASSWORD_RECOVERY"){authMode("recovery");authDialog.showModal()}await refresh()});
 let userLocationMarker=null;function getGps(fillForm=true){const status=document.querySelector("#gpsStatus");if(!navigator.geolocation){if(status)status.textContent="Ta przeglądarka nie obsługuje geolokalizacji.";return}if(status)status.textContent="Ustalam Twoją lokalizację…";navigator.geolocation.getCurrentPosition(p=>{const lat=p.coords.latitude,lng=p.coords.longitude;if(fillForm){document.querySelector("#lat").value=lat.toFixed(6);document.querySelector("#lng").value=lng.toFixed(6)}map.flyTo([lat,lng],16);if(userLocationMarker)map.removeLayer(userLocationMarker);userLocationMarker=L.circleMarker([lat,lng],{radius:9,color:"#ffffff",weight:3,fillColor:"#e74747",fillOpacity:1}).addTo(map).bindPopup("Twoja lokalizacja");if(status)status.textContent="Lokalizacja pobrana. Dokładność około "+Math.round(p.coords.accuracy)+" m."},err=>{if(status)status.textContent=err.code===1?"Brak zgody na lokalizację. Zezwól przeglądarce na dostęp do GPS.":"Nie udało się ustalić lokalizacji. Sprawdź GPS i spróbuj ponownie.";},{enableHighAccuracy:true,timeout:15000,maximumAge:0})}
-document.querySelector("#locate").onclick=()=>getGps(false);document.querySelector("#getGps").onclick=()=>getGps(true);
+document.querySelector("#getGps").onclick=()=>getGps(true);
 const dlg=document.querySelector("#form");document.querySelector("#category").innerHTML=cats.slice(1).map(c=>'<option value="'+c[0]+'">'+c[1]+'</option>').join("");
 function openForm(ll){if(!user)return alert("Najpierw zaloguj się, aby dodać miejsce do wspólnej mapy.");document.querySelector("#lat").value=ll?ll.lat:"";document.querySelector("#lng").value=ll?ll.lng:"";dlg.showModal();if(!ll)getGps(true)}
 
@@ -360,7 +377,7 @@ document.querySelector("#homeSearch").oninput=e=>{query=e.target.value.toLowerCa
 function openMapView(){home.style.display="none";document.body.classList.remove("dashboard-open");setTimeout(()=>map.invalidateSize(),120)}
 function openHome(){home.style.display="block";document.body.classList.add("dashboard-open");setTimeout(()=>{map.invalidateSize(true);map.setView([52.05,19.35],6)},350);sidePanel.classList.remove("panel-open");document.querySelector("#routePanel").classList.remove("open");setNav("");}
 document.body.classList.add("dashboard-open");
-document.querySelector(".logo").onclick=e=>{e.preventDefault();openHome()};
+
 document.querySelector("#homeMap").onclick=()=>{favoritesOnly=false;filter="all";query="";document.querySelector("#homeSearch").value="";render();openMapView();setNav("navMap")};
 document.querySelector("#homeNavigate").onclick=()=>{favoritesOnly=false;openMapView();sidePanel.classList.add("panel-open");setNav("navPlaces")};
 document.querySelector("#homeExplore").onclick=()=>{favoritesOnly=false;openMapView();sidePanel.classList.add("panel-open");setNav("navPlaces")};
