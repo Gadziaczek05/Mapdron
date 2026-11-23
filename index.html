@@ -265,6 +265,17 @@ body.dashboard-open main,body.dashboard-open main>section,body.dashboard-open #m
 .bottom-nav #navAdd span{font-size:19px!important}
 .user-location-pulse{animation:mdPulse 1.8s ease-out infinite}
 @keyframes mdPulse{0%{box-shadow:0 0 0 0 rgba(33,150,243,.55)}70%{box-shadow:0 0 0 13px rgba(33,150,243,0)}100%{box-shadow:0 0 0 0 rgba(33,150,243,0)}}
+
+/* W trybie wyszukiwania pokazuj tylko wyniki, bez strony powitalnej i kategorii */
+#sidePanel.searching>.eyebrow,
+#sidePanel.searching>h1,
+#sidePanel.searching>.muted,
+#sidePanel.searching>h3:first-of-type,
+#sidePanel.searching>#cats,
+#sidePanel.searching>.warning{display:none!important}
+#sidePanel.searching{padding-top:14px!important}
+#sidePanel.searching>h3:last-of-type{margin-top:0!important;padding-top:0!important}
+#sidePanel.searching #places{margin-top:8px!important}
 </style></head><body>
 <header><a class="logo" href="#">◈ Map<span>Dron</span></a><div><button id="locate">◎ Moja pozycja</button></div></header>
 <main><aside id="sidePanel"><p class="eyebrow">ODKRYWAJ POLSKĘ Z INNEJ PERSPEKTYWY</p><h1>Znajdź swój<br><em>następny kadr.</em></h1><p class="muted">Mapa ciekawych lokalizacji do fotografii i planowania wypraw dronem.</p><h3>Kategorie</h3><div id="cats"></div><h3>Miejsca na mapie <small id="count"></small></h3><div id="places"></div><div class="warning"><b>Planujesz lot?</b><p>Przed każdym lotem sprawdź aktualne strefy, wymagania i zgody w oficjalnym systemie PAŻP. MapDron nie zastępuje DroneTower.</p></div></aside><section><div id="map"></div><div class="maplabel">● Lokalizacje w Polsce</div><a id="droneTowerButton" href="intent://launch/#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=pl.pansa.dronetower;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dpl.pansa.dronetower;end">✈ DroneTower</a></section></main><div id="routePanel" aria-live="polite"><button id="closeRoute" aria-label="Zamknij">×</button><div class="routeEyebrow">WYBRANA LOKALIZACJA</div><h3 id="routeName"></h3><p id="routeMeta">Pobieranie trasy…</p><div class="routeStats"><div><small>ODLEGŁOŚĆ</small><b id="routeDistance">…</b></div><div><small>CZAS DOJAZDU</small><b id="routeDuration">…</b></div></div><a id="startNavigation" target="_blank" rel="noopener noreferrer">Rozpocznij nawigację ↗</a></div><div id="appError" hidden style="position:fixed;z-index:99999;top:10px;left:10px;right:10px;padding:12px;background:#8b1e1e;color:white;border-radius:10px;font:14px sans-serif"></div><div id="homeDashboard">
@@ -345,7 +356,7 @@ const home=document.querySelector("#homeDashboard");
 
 
 
-document.querySelector("#homeSearch").oninput=e=>{query=e.target.value.toLowerCase().trim();render();if(query){openMapView();sidePanel.classList.add("panel-open");setNav("navPlaces")}};
+document.querySelector("#homeSearch").oninput=e=>{query=e.target.value.toLowerCase().trim();sidePanel.classList.toggle("searching",!!query);render();if(query){openMapView();sidePanel.classList.add("panel-open");setNav("navPlaces")}else if(!sidePanel.classList.contains("panel-open")){sidePanel.classList.remove("searching")}};
 function openMapView(){home.style.display="none";document.body.classList.remove("dashboard-open");setTimeout(()=>map.invalidateSize(),120)}
 function openHome(){home.style.display="block";document.body.classList.add("dashboard-open");setTimeout(()=>{map.invalidateSize(true);map.setView([52.05,19.35],6)},350);sidePanel.classList.remove("panel-open");document.querySelector("#routePanel").classList.remove("open");setNav("");}
 document.body.classList.add("dashboard-open");
