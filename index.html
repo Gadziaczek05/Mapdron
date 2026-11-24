@@ -318,7 +318,6 @@ let places=[],user=null,favs=new Set(),filter="all",query="",markers=[],favorite
 const map=L.map("map",{zoomControl:false}).setView([52.05,19.35],6);L.control.zoom({position:"topright"}).addTo(map);setTimeout(()=>map.invalidateSize(),250);window.addEventListener("resize",()=>map.invalidateSize());L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,subdomains:"abc",attribution:"© OpenStreetMap"}).addTo(map);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function visible(){return [...seed,...places].filter(p=>(!favoritesOnly||favs.has(String(p.id)))&&(filter==="all"||p.category===filter)&&(p.name+" "+(p.region||"")+" "+(p.description||"")).toLowerCase().includes(query))}
-async 
 let activeRouteLine=null;
 function openNavigationPanel(){openMapView();document.querySelector("#routePanel").classList.add("open");document.querySelector("#routeName").textContent="Nawigacja do dowolnego adresu";document.querySelector("#routeMeta").textContent="Wpisz adres, miejscowość lub współrzędne GPS.";document.querySelector("#routeDistance").textContent="—";document.querySelector("#routeDuration").textContent="—";document.querySelector("#routeSteps").innerHTML="";setNav("navNavigate");setTimeout(()=>document.querySelector("#destinationInput").focus(),150)}
 function formatDuration(seconds){const m=Math.round(seconds/60);return m<60?m+" min":Math.floor(m/60)+" h "+(m%60)+" min"}
