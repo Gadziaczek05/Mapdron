@@ -414,6 +414,11 @@ async function deletePlace(p){
  try{const r=await db.from("places").delete().eq("id",p.id).eq("user_id",user.id).select("id").single();if(r.error)throw r.error;await refresh();alert("Miejsce zostało usunięte.")}
  catch(err){alert("Nie udało się usunąć miejsca: "+(err.message||err))}
 }
+document.addEventListener("click",e=>{
+ const edit=e.target.closest("[data-map-edit]"),del=e.target.closest("[data-map-delete]");
+ if(edit){const p=places.find(x=>String(x.id)===edit.dataset.mapEdit);if(p)editPlace(p)}
+ if(del){const p=places.find(x=>String(x.id)===del.dataset.mapDelete);if(p)deletePlace(p)}
+});
 
 
 const home=document.querySelector("#homeDashboard");
